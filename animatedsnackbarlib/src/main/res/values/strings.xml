@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Animated Snackbar Lib</string>
+    <string name="dummy_message">Dummy message</string>
+    <string name="error_bubble_alt_txt">Error Bubble</string>
 </resources>

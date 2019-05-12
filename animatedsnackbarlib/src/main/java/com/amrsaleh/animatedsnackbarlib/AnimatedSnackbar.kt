@@ -1,4 +1,4 @@
-package com.amrsaleh.animatedsnackbar
+package com.amrsaleh.animatedsnackbarlib
 
 import android.content.Context
 import android.os.Handler

@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">Animated Snackbar</string>
 
-    <string name="error_bubble_alt_txt">Error Bubble</string>
-    <string name="dummy_message">Dummy message</string>
+    <string name="dummy_message">Dummy custom message</string>
     <string name="animated_snackbar_example">Animated Snackbar example</string>
     <string name="show_snackbar">Show snackbar</string>
 </resources>
