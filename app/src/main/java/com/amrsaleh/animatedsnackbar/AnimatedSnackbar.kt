@@ -5,30 +5,30 @@ import android.os.Handler
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
-import kotlinx.android.synthetic.main.error_bar_view.view.*
+import kotlinx.android.synthetic.main.snackbar_view.view.*
 
 /**
  * An animated error snack bar that can be auto-hidden after
  * [AUTO_HIDE_DELAY_MILLIS] milliseconds.
  *
  */
-class ErrorBarCustomView(context: Context, attrs : AttributeSet) : LinearLayout(context, attrs) {
+class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(context, attrs) {
 
     private val mHideHandler = Handler()
-    private val mHideRunnable = Runnable { hideValidationError() }
+    private val mHideRunnable = Runnable { hideSnackbar() }
     private var hidden = true
 
     init {
-        inflate(context, R.layout.error_bar_view, this)
+        inflate(context, R.layout.snackbar_view, this)
         this.visibility = View.INVISIBLE
     }
 
-    fun showValidationError(errorString: String){
+    fun showSnackbarWithMessage(errorString: String){
         validationErrorTV.text = errorString
-        showValidationError()
+        showSnackbar()
     }
 
-    fun showValidationError(){
+    fun showSnackbar(){
         this.visibility = View.VISIBLE
         this.y = -this.height.toFloat()
         this.animate().y(0.0f).withLayer()
@@ -37,7 +37,7 @@ class ErrorBarCustomView(context: Context, attrs : AttributeSet) : LinearLayout(
         if(AUTO_HIDE) delayedHide(AUTO_HIDE_DELAY_MILLIS)
     }
 
-    fun hideValidationError(){
+    fun hideSnackbar(){
         if(hidden) return
         hidden = true
         this.animate().y(-this.height.toFloat()).withLayer().withEndAction { this.visibility = View.INVISIBLE }
