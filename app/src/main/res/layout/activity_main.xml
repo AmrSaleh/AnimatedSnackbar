@@ -29,6 +29,7 @@
     <com.amrsaleh.animatedsnackbarlib.AnimatedSnackbar
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/snackbar"/>
+            android:id="@+id/snackbar"
+            app:snackbar_background="@color/colorPrimary"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,24 +1,47 @@
 package com.amrsaleh.animatedsnackbarlib
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.snackbar_view.view.*
 
+
 /**
- * An animated error snack bar that can be auto-hidden after
+ * An animated snack bar that can be auto-hidden after
  * [AUTO_HIDE_DELAY_MILLIS] milliseconds.
  *
  */
 class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(context, attrs) {
+
+    private var backgroundRef : Drawable? = null
+    set(value) {
+        field = value
+        if(value != null){
+            this.background = value
+            invalidate()
+            requestLayout()
+        }
+    }
 
     private val mHideHandler = Handler()
     private val mHideRunnable = Runnable { hideSnackbar() }
     private var hidden = true
 
     init {
+        context.theme.obtainStyledAttributes(
+        attrs,
+        R.styleable.AnimatedSnackbar,
+        0, 0).apply {
+
+        try {
+            backgroundRef = getDrawable(R.styleable.AnimatedSnackbar_snackbar_background)
+        } finally {
+            recycle()
+        }
+    }
         inflate(context, R.layout.snackbar_view, this)
         this.visibility = View.INVISIBLE
     }
