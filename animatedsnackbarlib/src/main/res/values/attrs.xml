@@ -5,6 +5,8 @@
          ?android:attr/buttonBarStyle is new as of API 11 so this is
          necessary to support previous API levels. -->
     <declare-styleable name="AnimatedSnackbar">
-        <attr name="snackbar_background" format="reference" />
+        <attr name="icon" format="reference" />
+        <attr name="icon_tint" format="color" />
+        <attr name="text_color" format="color" />
     </declare-styleable>
 </resources>

@@ -1,6 +1,7 @@
 package com.amrsaleh.animatedsnackbarlib
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.util.AttributeSet
@@ -16,38 +17,50 @@ import kotlinx.android.synthetic.main.snackbar_view.view.*
  */
 class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(context, attrs) {
 
-    private var backgroundRef : Drawable? = null
-    set(value) {
-        field = value
-        if(value != null){
-            this.background = value
-            invalidate()
-            requestLayout()
-        }
-    }
+//    private var customBackground : Drawable? = null
+//    set(value) {
+//        field = value
+//        if(value != null){
+//            this.background = value
+//            invalidate()
+//            requestLayout()
+//        }
+//    }
+    private var iconDrawable : Drawable? = context.getDrawable(android.R.drawable.ic_dialog_info)
+    private var iconTint = Color.WHITE
+    private var textTint = Color.WHITE
 
     private val mHideHandler = Handler()
     private val mHideRunnable = Runnable { hideSnackbar() }
     private var hidden = true
 
     init {
-        context.theme.obtainStyledAttributes(
-        attrs,
-        R.styleable.AnimatedSnackbar,
-        0, 0).apply {
+        iconDrawable = context.getDrawable(android.R.drawable.ic_dialog_info)
 
-        try {
-            backgroundRef = getDrawable(R.styleable.AnimatedSnackbar_snackbar_background)
-        } finally {
-            recycle()
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.AnimatedSnackbar,
+            0, 0).apply {
+                try {
+                    iconDrawable = getDrawable(R.styleable.AnimatedSnackbar_icon)
+                    iconTint = getColor(R.styleable.AnimatedSnackbar_icon_tint, Color.WHITE)
+                    textTint = getColor(R.styleable.AnimatedSnackbar_text_color, Color.WHITE)
+                } finally {
+                    recycle()
+            }
         }
-    }
         inflate(context, R.layout.snackbar_view, this)
         this.visibility = View.INVISIBLE
+
+        parent_layout.background = background ?: parent_layout.background
+        imageView.setImageDrawable(iconDrawable ?: imageView.drawable)
+        imageView.setColorFilter(iconTint)
+        textView.setTextColor(iconTint)
+
     }
 
     fun showSnackbarWithMessage(errorString: String){
-        validationErrorTV.text = errorString
+        textView.text = errorString
         showSnackbar()
     }
 
