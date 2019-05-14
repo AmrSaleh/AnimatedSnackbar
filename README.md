@@ -82,3 +82,5 @@ AnimatedSnackbar.AUTO_HIDE_DELAY_MILLIS = 4000
 ```
 More description is planned to be added here, but for now please refer to the included example project for further clarification.
 
+## License
+Licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt)
