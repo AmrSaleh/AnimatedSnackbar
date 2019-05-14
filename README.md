@@ -67,10 +67,8 @@ You can further customize your snack bar by adding the following optional custom
 ```
 #### Show the snack bar from your Activity of Fragment
 ```Kotlin
-show_error_button.setOnClickListener {
-    // Show the animated snack bar with a custom String message
-    snackbar.showSnackbarWithMessage(getString(R.string.dummy_message))
-}
+// Show the animated snack bar with a custom String message
+snackbar.showSnackbarWithMessage(getString(R.string.dummy_message))
 ```
 The snack bar will auto hide after a few seconds but you can also manually hide the snack bar by calling the hideSnackbar function and cutomize the autohide duration or disable autohide by modifying the companion object params.
 ```Kotlin
