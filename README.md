@@ -9,6 +9,7 @@ Android library that provides an animated customizable snack bar.
 - Customize various features like background, font, icon and tint.
 
 ## Showcase
+These are GIFs and may take a few seconds to load if you have a slow connection.
 <img src="https://user-images.githubusercontent.com/5616594/57711888-22d70b80-765f-11e9-86ce-2907ac0ddb58.gif" alt="GIF1" width="430"/> <img src="https://user-images.githubusercontent.com/5616594/57711890-22d70b80-765f-11e9-945e-80d2b9a77061.gif" alt="GIF2" width="430"/>
 
 ## Customization
