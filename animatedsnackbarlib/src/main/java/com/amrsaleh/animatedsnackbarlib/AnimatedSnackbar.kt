@@ -57,12 +57,12 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(co
         parent_layout.setBackgroundColor(bgColor)
         imageView.setImageDrawable(iconDrawable ?: imageView.drawable)
         imageView.setColorFilter(iconTint)
-        textView.setTextColor(iconTint)
+        textView.setTextColor(textTint)
 
         if(statusBarMatch){
             activity = (context as? Activity)
             activity?.apply {
-//                statusOrigColor = window.statusBarColor
+
 //                // clear FLAG_TRANSLUCENT_STATUS flag:
 //                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
 //
@@ -82,11 +82,15 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(co
     }
 
     fun showSnackbar(){
+        if(this.visibility == View.VISIBLE) return
+        hidden = false
         this.visibility = View.VISIBLE
         this.y = -this.height.toFloat()
-        if(statusBarMatch) activity?.window?.statusBarColor = bgColor
+        if(statusBarMatch) {
+            statusOrigColor = activity?.window?.statusBarColor ?: statusOrigColor
+            activity?.window?.statusBarColor = bgColor
+        }
         this.animate().y(0.0f).withLayer()
-        hidden = false
         mHideHandler.removeCallbacks(mHideRunnable)
         if(AUTO_HIDE) delayedHide(AUTO_HIDE_DELAY_MILLIS)
     }
@@ -96,8 +100,8 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(co
         hidden = true
         this.animate().y(-this.height.toFloat()).withLayer().withEndAction {
             this.visibility = View.INVISIBLE
-            // finally change the color
-            if(statusBarMatch) activity?.window?.statusBarColor = statusOrigColor
+            // finally change the color of status bar back
+            activity?.window?.statusBarColor = statusOrigColor
         }
 
         mHideHandler.removeCallbacks(mHideRunnable)

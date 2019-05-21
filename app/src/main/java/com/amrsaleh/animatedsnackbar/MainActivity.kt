@@ -10,8 +10,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        show_error_button.setOnClickListener {
+        show_bar_button.setOnClickListener {
             snackbar.showSnackbarWithMessage(getString(R.string.dummy_message))
         }
+
+        show_custom_bar_button.setOnClickListener {
+            custom_snackbar.showSnackbarWithMessage(getString(R.string.dummy_message))
+        }
+
+//        window.statusBarColor = Color.DKGRAY
     }
 }

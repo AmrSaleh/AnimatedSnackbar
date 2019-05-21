@@ -4,4 +4,5 @@
     <string name="dummy_message">Dummy custom message</string>
     <string name="animated_snackbar_example">Animated Snackbar example</string>
     <string name="show_snackbar">Show snackbar</string>
+    <string name="show_custom_bar">Show custom bar</string>
 </resources>
