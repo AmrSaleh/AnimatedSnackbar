@@ -127,7 +127,7 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(co
          * If [AUTO_HIDE] is set, the number of milliseconds to wait after
          * user interaction before hiding the bar UI.
          */
-        var AUTO_HIDE_DELAY_MILLIS = 4000
+        var AUTO_HIDE_DELAY_MILLIS = 2000
     }
 }
 
