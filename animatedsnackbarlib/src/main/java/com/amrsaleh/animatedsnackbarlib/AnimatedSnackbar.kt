@@ -8,7 +8,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.snackbar_view.view.*
-
+import android.app.Activity
+import android.util.TypedValue
+import androidx.annotation.AttrRes
+import androidx.core.content.res.ResourcesCompat
 
 /**
  * An animated snack bar that can be auto-hidden after
@@ -17,22 +20,18 @@ import kotlinx.android.synthetic.main.snackbar_view.view.*
  */
 class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(context, attrs) {
 
-//    private var customBackground : Drawable? = null
-//    set(value) {
-//        field = value
-//        if(value != null){
-//            this.background = value
-//            invalidate()
-//            requestLayout()
-//        }
-//    }
     private var iconDrawable : Drawable? = context.getDrawable(android.R.drawable.ic_dialog_info)
     private var iconTint = Color.WHITE
     private var textTint = Color.WHITE
+    private var bgColor = ResourcesCompat.getColor(resources, R.color.error_red, null)
+    private var statusBarMatch = false
 
     private val mHideHandler = Handler()
     private val mHideRunnable = Runnable { hideSnackbar() }
     private var hidden = true
+
+    private var statusOrigColor: Int = context.themeColor(R.attr.colorPrimaryDark)
+    private var activity: Activity? = null
 
     init {
         iconDrawable = context.getDrawable(android.R.drawable.ic_dialog_info)
@@ -45,6 +44,8 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(co
                     iconDrawable = getDrawable(R.styleable.AnimatedSnackbar_icon)
                     iconTint = getColor(R.styleable.AnimatedSnackbar_icon_tint, Color.WHITE)
                     textTint = getColor(R.styleable.AnimatedSnackbar_text_color, Color.WHITE)
+                    bgColor = getColor(R.styleable.AnimatedSnackbar_bg_color, bgColor)
+                    statusBarMatch = getBoolean(R.styleable.AnimatedSnackbar_status_bar_match, false)
                 } finally {
                     recycle()
             }
@@ -52,10 +53,26 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(co
         inflate(context, R.layout.snackbar_view, this)
         this.visibility = View.INVISIBLE
 
-        parent_layout.background = background ?: parent_layout.background
+//        parent_layout.background = background ?: parent_layout.background
+        parent_layout.setBackgroundColor(bgColor)
         imageView.setImageDrawable(iconDrawable ?: imageView.drawable)
         imageView.setColorFilter(iconTint)
         textView.setTextColor(iconTint)
+
+        if(statusBarMatch){
+            activity = (context as? Activity)
+            activity?.apply {
+//                statusOrigColor = window.statusBarColor
+//                // clear FLAG_TRANSLUCENT_STATUS flag:
+//                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+//
+//                // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+//                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+//
+//                // finally change the color
+//                window.statusBarColor = bgColor
+            }
+        }
 
     }
 
@@ -67,6 +84,7 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(co
     fun showSnackbar(){
         this.visibility = View.VISIBLE
         this.y = -this.height.toFloat()
+        if(statusBarMatch) activity?.window?.statusBarColor = bgColor
         this.animate().y(0.0f).withLayer()
         hidden = false
         mHideHandler.removeCallbacks(mHideRunnable)
@@ -76,7 +94,11 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(co
     fun hideSnackbar(){
         if(hidden) return
         hidden = true
-        this.animate().y(-this.height.toFloat()).withLayer().withEndAction { this.visibility = View.INVISIBLE }
+        this.animate().y(-this.height.toFloat()).withLayer().withEndAction {
+            this.visibility = View.INVISIBLE
+            // finally change the color
+            if(statusBarMatch) activity?.window?.statusBarColor = statusOrigColor
+        }
 
         mHideHandler.removeCallbacks(mHideRunnable)
     }
@@ -103,4 +125,10 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(co
          */
         var AUTO_HIDE_DELAY_MILLIS = 4000
     }
+}
+
+fun Context.themeColor(@AttrRes attrRes: Int): Int {
+    val typedValue = TypedValue()
+    theme.resolveAttribute (attrRes, typedValue, true)
+    return typedValue.data
 }

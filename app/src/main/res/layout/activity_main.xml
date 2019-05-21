@@ -33,7 +33,8 @@
             app:icon="@android:drawable/ic_dialog_email"
             app:icon_tint="@android:color/holo_blue_bright"
             app:text_color="@android:color/holo_blue_bright"
-            android:background="@color/colorPrimaryDark"
+            app:bg_color="@color/colorAccent"
+            app:status_bar_match="true"
             app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

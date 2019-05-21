@@ -8,5 +8,7 @@
         <attr name="icon" format="reference" />
         <attr name="icon_tint" format="color" />
         <attr name="text_color" format="color" />
+        <attr name="bg_color" format="color" />
+        <attr name="status_bar_match" format="boolean" />
     </declare-styleable>
 </resources>
