@@ -21,7 +21,7 @@ import androidx.core.content.res.ResourcesCompat
 class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(context, attrs) {
 
     private var iconDrawable : Drawable? = context.getDrawable(android.R.drawable.ic_dialog_info)
-    private var iconTint = Color.WHITE
+    private var iconTint = Color.TRANSPARENT
     private var textTint = Color.WHITE
     private var bgColor = ResourcesCompat.getColor(resources, R.color.error_red, null)
     private var statusBarMatch = false
@@ -42,7 +42,7 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(co
             0, 0).apply {
                 try {
                     iconDrawable = getDrawable(R.styleable.AnimatedSnackbar_icon)
-                    iconTint = getColor(R.styleable.AnimatedSnackbar_icon_tint, Color.WHITE)
+                    iconTint = getColor(R.styleable.AnimatedSnackbar_icon_tint, Color.TRANSPARENT)
                     textTint = getColor(R.styleable.AnimatedSnackbar_text_color, Color.WHITE)
                     bgColor = getColor(R.styleable.AnimatedSnackbar_bg_color, bgColor)
                     statusBarMatch = getBoolean(R.styleable.AnimatedSnackbar_status_bar_match, false)
