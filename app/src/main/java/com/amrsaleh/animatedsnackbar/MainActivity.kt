@@ -38,12 +38,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         show_custom_bar_button.setOnClickListener {
-            val colorDrawable = ColorDrawable(ContextCompat.getColor(this, R.color.colorAmber_A400))
+            val colorDrawable = ColorDrawable(ContextCompat.getColor(this, R.color.darkGray))
             AnimatedSnackbar(this).apply {
-                setIconDrawable(getDrawable(android.R.drawable.ic_dialog_email))
+                setIconDrawable(getDrawable(android.R.drawable.ic_dialog_email), ContextCompat.getColor(this@MainActivity, R.color.greenLight))
                 setBgDrawable(colorDrawable)
-                setMessage(getString(R.string.dummy_message), ContextCompat.getColor(this@MainActivity, R.color.colorRed_900))
-                setTextSize(20f)
+                setMessage(getString(R.string.dummy_message), ContextCompat.getColor(this@MainActivity, R.color.error_red))
+                setTextSize(15f)
                 setTypeFace(Typeface.DEFAULT_BOLD)
                 show()
             }
