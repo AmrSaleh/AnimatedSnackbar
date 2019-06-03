@@ -10,7 +10,8 @@ Android library that provides an animated customizable snack bar.
 
 ## Showcase
 These are GIFs and may take a few seconds to load if you have a slow connection.
-<img src="https://user-images.githubusercontent.com/5616594/58773812-d4ae8b80-85be-11e9-8de5-019ab5c2ffaa.png" alt="png1" width="430"/>
+<img src="https://user-images.githubusercontent.com/5616594/58800238-d72cd780-85f6-11e9-9796-ae13a4ed6bfd.gif" alt="png1" width="430"/>
+<img src="https://user-images.githubusercontent.com/5616594/58800177-b795af00-85f6-11e9-8cc2-a240c76184c6.png" alt="png1" width="430"/>
 <img src="https://user-images.githubusercontent.com/5616594/57711888-22d70b80-765f-11e9-86ce-2907ac0ddb58.gif" alt="GIF1" width="430"/> <img src="https://user-images.githubusercontent.com/5616594/57711890-22d70b80-765f-11e9-945e-80d2b9a77061.gif" alt="GIF2" width="430"/>
 
 ## Customization
