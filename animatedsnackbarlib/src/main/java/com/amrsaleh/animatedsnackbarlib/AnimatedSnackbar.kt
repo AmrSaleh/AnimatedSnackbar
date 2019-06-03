@@ -1,110 +1,155 @@
 package com.amrsaleh.animatedsnackbarlib
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
+import android.graphics.Typeface
+import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import kotlinx.android.synthetic.main.snackbar_view.view.*
-import android.app.Activity
-import android.util.TypedValue
-import androidx.annotation.AttrRes
-import androidx.core.content.res.ResourcesCompat
+
 
 /**
  * An animated snack bar that can be auto-hidden after
- * [AUTO_HIDE_DELAY_MILLIS] milliseconds.
+ * [autoHideDelayMillis] milliseconds.
  *
  */
-class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(context, attrs) {
+class AnimatedSnackbar(context: Context, attrs : AttributeSet? = null) : LinearLayout(context, attrs) {
 
     private var iconDrawable : Drawable? = context.getDrawable(android.R.drawable.ic_dialog_info)
     private var iconTint = Color.TRANSPARENT
+    private var message = ""
     private var textTint = Color.WHITE
-    private var bgColor = ResourcesCompat.getColor(resources, R.color.error_red, null)
-    private var statusBarMatch = false
+    private var bgDrawable : Drawable? = null
+    private var typeface : Typeface? = null
+    private var textSize : Float? = null
+
+
+    /**
+     * Whether or not the bar UI should be auto-hidden after
+     * [autoHideDelayMillis] milliseconds.
+     */
+    private var autoHide = true
+    /**
+     * If [autoHide] is set, the number of milliseconds to wait before hiding the bar UI.
+     */
+    private var autoHideDelayMillis : Int = 2000
+    private var animationDurationMillis : Long = 300
+
+
+    fun setIconDrawable(iconDrawable : Drawable?, iconTint : Int = Color.TRANSPARENT): AnimatedSnackbar{
+        if(iconDrawable != null) {
+            this.iconDrawable = iconDrawable
+            imageView.setImageDrawable(iconDrawable)
+        }
+        this.iconTint = iconTint
+        imageView.setColorFilter(iconTint)
+        return this
+    }
+
+    fun setMessage(message : String, textTint : Int = Color.WHITE): AnimatedSnackbar{
+        this.message = message
+        textView.text = message
+
+        this.textTint = textTint
+        textView.textSize
+        textView.setTextColor(textTint)
+        return this
+    }
+
+    fun setTypeFace(typeface: Typeface){
+        this.typeface = typeface
+        textView.typeface = typeface
+    }
+
+    fun setTextSize(textSize: Float){
+        this.textSize = textSize
+        textView.textSize = textSize
+    }
+
+    fun setBgDrawable(bgDrawable : Drawable?): AnimatedSnackbar{
+        if(bgDrawable != null) {
+            this.bgDrawable = bgDrawable
+            parent_layout.background = bgDrawable
+        }
+        return this
+    }
+
+    fun setAutoHide(autoHide: Boolean, autoHideDelayMillis: Int = 2000){
+        this.autoHide = autoHide
+        this.autoHideDelayMillis = autoHideDelayMillis
+    }
+
+    fun setAnimationDurationMillis(animationDuration : Long){
+        this.animationDurationMillis = animationDuration
+    }
 
     private val mHideHandler = Handler()
-    private val mHideRunnable = Runnable { hideSnackbar() }
+    private val mHideRunnable = Runnable { hide() }
     private var hidden = true
 
-    private var statusOrigColor: Int = context.themeColor(R.attr.colorPrimaryDark)
-    private var activity: Activity? = null
+    private val activity: Activity? = (context as? Activity)
 
     init {
-        iconDrawable = context.getDrawable(android.R.drawable.ic_dialog_info)
-
-        context.theme.obtainStyledAttributes(
-            attrs,
-            R.styleable.AnimatedSnackbar,
-            0, 0).apply {
-                try {
-                    iconDrawable = getDrawable(R.styleable.AnimatedSnackbar_icon)
-                    iconTint = getColor(R.styleable.AnimatedSnackbar_icon_tint, Color.TRANSPARENT)
-                    textTint = getColor(R.styleable.AnimatedSnackbar_text_color, Color.WHITE)
-                    bgColor = getColor(R.styleable.AnimatedSnackbar_bg_color, bgColor)
-                    statusBarMatch = getBoolean(R.styleable.AnimatedSnackbar_status_bar_match, false)
-                } finally {
-                    recycle()
-            }
-        }
         inflate(context, R.layout.snackbar_view, this)
         this.visibility = View.INVISIBLE
+    }
 
-//        parent_layout.background = background ?: parent_layout.background
-        parent_layout.setBackgroundColor(bgColor)
-        imageView.setImageDrawable(iconDrawable ?: imageView.drawable)
-        imageView.setColorFilter(iconTint)
-        textView.setTextColor(textTint)
+    private fun prepareSnackbar(){
+        // Attach to parent view
+        addViewToParent()
 
-        if(statusBarMatch){
-            activity = (context as? Activity)
-            activity?.apply {
-
-//                // clear FLAG_TRANSLUCENT_STATUS flag:
-//                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-//
-//                // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-//                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-//
-//                // finally change the color
-//                window.statusBarColor = bgColor
-            }
+        // Add status bar padding
+        if(activity != null){
+            val rectangle = Rect()
+            activity.window.decorView.getWindowVisibleDisplayFrame(rectangle)
+            val statusBarHeight = rectangle.top
+            parent_layout.setPadding(0,statusBarHeight,0,0)
         }
-
     }
 
-    fun showSnackbarWithMessage(errorString: String){
-        textView.text = errorString
-        showSnackbar()
+    private fun addViewToParent(){
+        if(parent != null) return
+        val decorView = activity?.window?.decorView as? ViewGroup
+        decorView?.addView(this)
     }
 
-    fun showSnackbar(){
-        if(this.visibility == View.VISIBLE) return
+    fun show(){
+        prepareSnackbar()
+        performWhenHeightIsReady {showSnackbar()}
+    }
+
+    private fun showSnackbar() : Boolean{
+//        if(this.visibility == View.VISIBLE) return false
         hidden = false
         this.visibility = View.VISIBLE
-        this.y = -this.height.toFloat()
-        if(statusBarMatch) {
-            statusOrigColor = activity?.window?.statusBarColor ?: statusOrigColor
-            activity?.window?.statusBarColor = bgColor
-        }
-        this.animate().y(0.0f).withLayer()
+        (bgDrawable as? AnimationDrawable)?.start()
+        this.y = -parent_layout.measuredHeight.toFloat()
+
+        this.animate().y(0.0f).setDuration(animationDurationMillis).withLayer()
         mHideHandler.removeCallbacks(mHideRunnable)
-        if(AUTO_HIDE) delayedHide(AUTO_HIDE_DELAY_MILLIS)
+        if(autoHide) delayedHide(autoHideDelayMillis)
+        return true
     }
 
-    fun hideSnackbar(){
-        if(hidden) return
+    fun hide() : Boolean{
+        if(hidden) return false
         hidden = true
-        this.animate().y(-this.height.toFloat()).withLayer().withEndAction {
+        this.animate().y(-parent_layout.height.toFloat()).setDuration(animationDurationMillis).withLayer().withEndAction {
             this.visibility = View.INVISIBLE
-            // finally change the color of status bar back
-            activity?.window?.statusBarColor = statusOrigColor
+            (bgDrawable as? AnimationDrawable)?.stop()
+            (parent as? ViewGroup)?.removeView(this@AnimatedSnackbar)
         }
 
         mHideHandler.removeCallbacks(mHideRunnable)
+        return true
     }
 
     /**
@@ -115,24 +160,16 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet) : LinearLayout(co
         mHideHandler.removeCallbacks(mHideRunnable)
         mHideHandler.postDelayed(mHideRunnable, delayMillis.toLong())
     }
-
-    companion object {
-        /**
-         * Whether or not the bar UI should be auto-hidden after
-         * [AUTO_HIDE_DELAY_MILLIS] milliseconds.
-         */
-        var AUTO_HIDE = true
-
-        /**
-         * If [AUTO_HIDE] is set, the number of milliseconds to wait after
-         * user interaction before hiding the bar UI.
-         */
-        var AUTO_HIDE_DELAY_MILLIS = 2000
-    }
 }
 
-fun Context.themeColor(@AttrRes attrRes: Int): Int {
-    val typedValue = TypedValue()
-    theme.resolveAttribute (attrRes, typedValue, true)
-    return typedValue.data
+//Extension to get height in Kotlin dynamically (waits for it to be calculated in case not ready).
+fun <T : View> T.performWhenHeightIsReady(function: () -> Unit) {
+    if (height == 0)
+        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+                function()
+            }
+        })
+    else function()
 }
