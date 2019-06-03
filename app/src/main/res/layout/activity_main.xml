@@ -26,22 +26,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <com.amrsaleh.animatedsnackbarlib.AnimatedSnackbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/snackbar"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-    <com.amrsaleh.animatedsnackbarlib.AnimatedSnackbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/custom_snackbar"
-            app:icon="@android:drawable/ic_dialog_email"
-            app:icon_tint="@color/pink"
-            app:text_color="@color/darkGray"
-            app:bg_color="@color/greenLight"
-            app:status_bar_match="true"
-            app:layout_constraintTop_toTopOf="parent"/>
     <Button
             android:text="@string/show_custom_bar"
             android:layout_width="wrap_content"

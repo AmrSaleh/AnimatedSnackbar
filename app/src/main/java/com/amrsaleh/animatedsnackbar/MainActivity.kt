@@ -1,8 +1,17 @@
 package com.amrsaleh.animatedsnackbar
 
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Typeface
+import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.amrsaleh.animatedsnackbarlib.AnimatedSnackbar
 import kotlinx.android.synthetic.main.activity_main.*
+
+
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -10,14 +19,36 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // initializing animation drawable by getting background from constraint layout
+        val animationDrawable = getDrawable(R.drawable.drawable_gradient_animation_list) as AnimationDrawable
+
+        // setting enter fade animation duration
+        animationDrawable.setEnterFadeDuration(0)
+        // setting exit fade animation duration
+        animationDrawable.setExitFadeDuration(1000)
+
+        val mySnackBar = AnimatedSnackbar(this)
+            .setBgDrawable(animationDrawable)
+            .setMessage(getString(R.string.dummy_message))
+
         show_bar_button.setOnClickListener {
-            snackbar.showSnackbarWithMessage(getString(R.string.dummy_message))
+            mySnackBar.setAutoHide(true, 4000)
+            mySnackBar.setAnimationDurationMillis(600)
+            mySnackBar.show()
         }
 
         show_custom_bar_button.setOnClickListener {
-            custom_snackbar.showSnackbarWithMessage(getString(R.string.dummy_message))
+            val colorDrawable = ColorDrawable(ContextCompat.getColor(this, R.color.darkGray))
+            AnimatedSnackbar(this).apply {
+                setIconDrawable(getDrawable(android.R.drawable.ic_dialog_email), ContextCompat.getColor(this@MainActivity, R.color.greenLight))
+                setBgDrawable(colorDrawable)
+                setMessage(getString(R.string.dummy_message), ContextCompat.getColor(this@MainActivity, R.color.error_red))
+                setTextSize(15f)
+                setTypeFace(Typeface.DEFAULT_BOLD)
+                show()
+            }
         }
 
-//        window.statusBarColor = Color.DKGRAY
+
     }
 }
