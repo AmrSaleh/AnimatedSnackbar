@@ -1,6 +1,9 @@
 # AnimatedSnackbar
 Android library that provides an animated customizable snack bar.
 
+## Notice
+This readme file is a legacy document for versions less than v2
+
 ## Features
 - View on demand a custom snack bar from the top of the screen.
 - Pass custom message to show in the snack bar.
@@ -17,8 +20,8 @@ These are GIFs and may take a few seconds to load if you have a slow connection.
   - Background color or drawable.
   - Text message color.
   - Icon drawable and tint.
-  - Text Font.
-  - Auto hide duration.
+  - Text Font. (Planned)
+  - Auto hide duration. (Planned)
   - Click behaviour. (Planned)
 
 ### Future plans
@@ -45,29 +48,40 @@ dependencies {
 ```
 
 ### Usage in your project
-#### Show a simple snack bar from your Activity of Fragment(pass activity context)
-```Kotlin
-AnimatedSnackbar(context)
-    .setMessage(getString(R.string.dummy_message))
-    .show()
+#### Add the AnimatedSnackbar in your XML layout
+```XML
+<com.amrsaleh.animatedsnackbarlib.AnimatedSnackbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/snackbar"
+        app:layout_constraintTop_toTopOf="parent"/>
 ```
-The snack bar will auto hide after a few seconds but you can also manually hide the snack bar by calling the "hide" function.
-
-#### Show a customized snack bar from your Activity of Fragment(pass activity context)
-```Kotlin
-// val animationDrawable = getDrawable(R.drawable.drawable_gradient_animation_list) as AnimationDrawable
-
-AnimatedSnackbar(context)
-    .setMessage(getString(R.string.dummy_message))
-    .setTextSize(15f)
-    .setTypeFace(Typeface.DEFAULT_BOLD)
-    .setIconDrawable(getDrawable(android.R.drawable.ic_dialog_email), ContextCompat.getColor(this@MainActivity, R.color.greenLight))
-    .setBgDrawable(animationDrawable)
-    .setAnimationDurationMillis(600)
-    .setAutoHide(true, 4000)
-    .show()
+You can further customize your snack bar by adding the following optional custom attributes
+```XML
+<com.amrsaleh.animatedsnackbarlib.AnimatedSnackbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/snackbar"
+            app:layout_constraintTop_toTopOf="parent"
+              app:icon="@android:drawable/ic_dialog_email"
+              app:icon_tint="@android:color/holo_blue_bright"
+              app:text_color="@android:color/holo_blue_bright"
+              android:background="@color/colorPrimaryDark"/>
 ```
-Second parameter in any setter is optional and you can always enter only first parameter if you like.
+#### Show the snack bar from your Activity of Fragment
+```Kotlin
+// Show the animated snack bar with a custom String message
+snackbar.showSnackbarWithMessage(getString(R.string.dummy_message))
+```
+The snack bar will auto hide after a few seconds but you can also manually hide the snack bar by calling the hideSnackbar function and cutomize the autohide duration or disable autohide by modifying the companion object params.
+```Kotlin
+// Hide the snack bar
+snackbar.hideSnackbar()
+
+// Customizing auto hide
+AnimatedSnackbar.AUTO_HIDE = true
+AnimatedSnackbar.AUTO_HIDE_DELAY_MILLIS = 4000
+```
 More description is planned to be added here, but for now please refer to the included example project for further clarification.
 
 ## License
