@@ -41,7 +41,7 @@ allprojects {
 - Step 2. Add the dependency to your app build.gradle
 ```Groovy
 dependencies {
-        implementation 'com.github.AmrSaleh:AnimatedSnackbar:v1.1' // Make sure to replace with latest version tag
+        implementation 'com.github.AmrSaleh:AnimatedSnackbar:v2.0' // Make sure to replace with latest version tag
 }
 ```
 
