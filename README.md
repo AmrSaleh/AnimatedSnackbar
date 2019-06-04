@@ -13,7 +13,13 @@ Android library that provides an animated customizable snack bar.
 ## Showcase
 These are GIFs and may take a few seconds to load if you have a slow connection.
 ![Showcase GIF](https://user-images.githubusercontent.com/5616594/58800238-d72cd780-85f6-11e9-9796-ae13a4ed6bfd.gif)
-![Showcase image](https://user-images.githubusercontent.com/5616594/58800177-b795af00-85f6-11e9-8cc2-a240c76184c6.png)
+
+<!-- 
+![CustomView GIF](https://user-images.githubusercontent.com/5616594/58909633-dc337900-8713-11e9-99c9-35ccee639208.gif)
+![Showcase image](https://user-images.githubusercontent.com/5616594/58910033-d25e4580-8714-11e9-9e32-d09be8884025.png)
+-->
+
+<img src="https://user-images.githubusercontent.com/5616594/58910033-d25e4580-8714-11e9-9e32-d09be8884025.png" alt="Showcase image" width="430"/><img src="https://user-images.githubusercontent.com/5616594/58909633-dc337900-8713-11e9-99c9-35ccee639208.gif" alt="CustomView GIF" width="430"/>
 
 <!-- <img src="https://user-images.githubusercontent.com/5616594/58800177-b795af00-85f6-11e9-8cc2-a240c76184c6.png" alt="png1" width="430"/> -->
 <!-- <img src="https://user-images.githubusercontent.com/5616594/57711888-22d70b80-765f-11e9-86ce-2907ac0ddb58.gif" alt="GIF1" width="430"/> <img src="https://user-images.githubusercontent.com/5616594/57711890-22d70b80-765f-11e9-945e-80d2b9a77061.gif" alt="GIF2" width="430"/> -->
