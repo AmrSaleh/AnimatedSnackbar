@@ -2,7 +2,6 @@ package com.amrsaleh.animatedsnackbar
 
 import android.graphics.Typeface
 import android.graphics.drawable.AnimationDrawable
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -25,30 +24,36 @@ class MainActivity : AppCompatActivity() {
         // setting enter fade animation duration
         animationDrawable.setEnterFadeDuration(0)
         // setting exit fade animation duration
-        animationDrawable.setExitFadeDuration(1000)
+        animationDrawable.setExitFadeDuration(800)
 
         val mySnackBar = AnimatedSnackbar(this)
-            .setBgDrawable(animationDrawable)
-            .setMessage(getString(R.string.dummy_message))
 
         show_bar_button.setOnClickListener {
-            mySnackBar.setAutoHide(true, 4000)
-            mySnackBar.setAnimationDurationMillis(600)
-            mySnackBar.show()
+            mySnackBar.setMessage(getString(R.string.dummy_message)).show()
         }
 
         show_custom_bar_button.setOnClickListener {
-            val colorDrawable = ColorDrawable(ContextCompat.getColor(this, R.color.darkGray))
+//            val colorDrawable = ColorDrawable(ContextCompat.getColor(this, R.color.darkGray))
             AnimatedSnackbar(this).apply {
                 setIconDrawable(getDrawable(android.R.drawable.ic_dialog_email), ContextCompat.getColor(this@MainActivity, R.color.greenLight))
-                setBgDrawable(colorDrawable)
-                setMessage(getString(R.string.dummy_message), ContextCompat.getColor(this@MainActivity, R.color.error_red))
+                setBgDrawable(animationDrawable)
+//                setBgDrawable(colorDrawable)
+                setMessage(getString(R.string.dummy_message), ContextCompat.getColor(this@MainActivity, android.R.color.white))
                 setTextSize(15f)
+                setAutoHide(true, 4000)
+                setAnimationDurationMillis(600)
                 setTypeFace(Typeface.DEFAULT_BOLD)
                 show()
             }
         }
 
+        show_custom_view_btn.setOnClickListener {
+            AnimatedSnackbar(this)
+                .setCustomView(R.layout.my_custom_view)
+                .setAddStatusBarPadding(true) // default true
+                .setAutoHide(true, 4000) // deafult true, 2000
+                .show()
+        }
 
     }
 }

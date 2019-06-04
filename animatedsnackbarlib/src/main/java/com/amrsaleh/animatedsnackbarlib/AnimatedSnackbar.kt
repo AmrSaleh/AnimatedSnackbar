@@ -12,7 +12,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.LinearLayout
+import android.widget.FrameLayout
+import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.snackbar_view.view.*
 
 
@@ -21,17 +22,16 @@ import kotlinx.android.synthetic.main.snackbar_view.view.*
  * [autoHideDelayMillis] milliseconds.
  *
  */
-class AnimatedSnackbar(context: Context, attrs : AttributeSet? = null) : LinearLayout(context, attrs) {
+class AnimatedSnackbar(context: Context, attrs : AttributeSet? = null) : FrameLayout(context, attrs) {
 
     private var iconDrawable : Drawable? = context.getDrawable(android.R.drawable.ic_dialog_info)
     private var iconTint = Color.TRANSPARENT
     private var message = ""
     private var textTint = Color.WHITE
-    private var bgDrawable : Drawable? = null
     private var typeface : Typeface? = null
     private var textSize : Float? = null
-
-
+    private var bgDrawable : Drawable? = null
+    private var addStatusBarPadding = true
     /**
      * Whether or not the bar UI should be auto-hidden after
      * [autoHideDelayMillis] milliseconds.
@@ -42,7 +42,12 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet? = null) : LinearL
      */
     private var autoHideDelayMillis : Int = 2000
     private var animationDurationMillis : Long = 300
+    private var customViewResource : Int? = null
+    private var customBarView : View? = null
 
+    private val mHideHandler = Handler()
+    private val mHideRunnable = Runnable { hide() }
+    private var hidden = true
 
     fun setIconDrawable(iconDrawable : Drawable?, iconTint : Int = Color.TRANSPARENT): AnimatedSnackbar{
         if(iconDrawable != null) {
@@ -64,14 +69,16 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet? = null) : LinearL
         return this
     }
 
-    fun setTypeFace(typeface: Typeface){
+    fun setTypeFace(typeface: Typeface): AnimatedSnackbar{
         this.typeface = typeface
         textView.typeface = typeface
+        return this
     }
 
-    fun setTextSize(textSize: Float){
+    fun setTextSize(textSize: Float): AnimatedSnackbar{
         this.textSize = textSize
         textView.textSize = textSize
+        return this
     }
 
     fun setBgDrawable(bgDrawable : Drawable?): AnimatedSnackbar{
@@ -82,18 +89,29 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet? = null) : LinearL
         return this
     }
 
-    fun setAutoHide(autoHide: Boolean, autoHideDelayMillis: Int = 2000){
+    fun setAutoHide(autoHide: Boolean, autoHideDelayMillis: Int = 2000): AnimatedSnackbar{
         this.autoHide = autoHide
         this.autoHideDelayMillis = autoHideDelayMillis
+        return this
     }
 
-    fun setAnimationDurationMillis(animationDuration : Long){
+    fun setAnimationDurationMillis(animationDuration : Long): AnimatedSnackbar{
         this.animationDurationMillis = animationDuration
+        return this
     }
 
-    private val mHideHandler = Handler()
-    private val mHideRunnable = Runnable { hide() }
-    private var hidden = true
+    fun setCustomView(@LayoutRes customViewResource : Int) : AnimatedSnackbar{
+        this.customViewResource = customViewResource
+        customBarView = inflate(context, customViewResource, null)
+        parent_layout.addView(customBarView)
+        default_view.visibility = View.GONE
+        return this
+    }
+
+    fun setAddStatusBarPadding(addStatusBarPadding : Boolean) : AnimatedSnackbar{
+        this.addStatusBarPadding = addStatusBarPadding
+        return this
+    }
 
     private val activity: Activity? = (context as? Activity)
 
@@ -107,11 +125,19 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet? = null) : LinearL
         addViewToParent()
 
         // Add status bar padding
-        if(activity != null){
+        if( addStatusBarPadding && activity != null){
             val rectangle = Rect()
             activity.window.decorView.getWindowVisibleDisplayFrame(rectangle)
             val statusBarHeight = rectangle.top
-            parent_layout.setPadding(0,statusBarHeight,0,0)
+            if(customBarView != null){
+                customBarView?.setPadding(
+                    customBarView?.paddingLeft ?: 0,
+                    (customBarView?.paddingTop ?: 0) + statusBarHeight,
+                    customBarView?.paddingRight ?: 0,
+                    customBarView?.paddingBottom ?: 0)
+            }else{
+                parent_layout.setPadding(0,statusBarHeight,0,0)
+            }
         }
     }
 
@@ -131,6 +157,7 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet? = null) : LinearL
         hidden = false
         this.visibility = View.VISIBLE
         (bgDrawable as? AnimationDrawable)?.start()
+        (customBarView?.background as? AnimationDrawable)?.start()
         this.y = -parent_layout.measuredHeight.toFloat()
 
         this.animate().y(0.0f).setDuration(animationDurationMillis).withLayer()

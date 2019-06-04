@@ -3,6 +3,9 @@
 
     <string name="dummy_message">Dummy custom message</string>
     <string name="animated_snackbar_example">Animated Snackbar example</string>
-    <string name="show_snackbar">Show snackbar</string>
-    <string name="show_custom_bar">Show custom bar</string>
+    <string name="show_snackbar">Show default snackbar</string>
+    <string name="show_custom_bar">Show custom snackbar</string>
+    <string name="custom_view_snackbar">Snackbar with custom view</string>
+    <string name="hello_from_custom_view">Hello from custom view :D</string>
+    <string name="image">image</string>
 </resources>

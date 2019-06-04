@@ -7,6 +7,8 @@ Android library that provides an animated customizable snack bar.
 - The snack bar disappears automatically after a few seconds.
 - Dismiss the bar programmatically on demand.
 - Customize various features like background, font, icon and tint.
+- Use your own custom view in the snack bar.
+- Automatically detect and start animated drawables in background.
 
 ## Showcase
 These are GIFs and may take a few seconds to load if you have a slow connection.
@@ -23,6 +25,8 @@ These are GIFs and may take a few seconds to load if you have a slow connection.
   - Icon drawable and tint.
   - Text Font.
   - Auto hide duration.
+  - Automatic status bar padding handling
+  - Add your own custom view.
   - Click behaviour. (Planned)
 
 ### Future plans
@@ -62,16 +66,24 @@ The snack bar will auto hide after a few seconds but you can also manually hide 
 // val animationDrawable = getDrawable(R.drawable.drawable_gradient_animation_list) as AnimationDrawable
 
 AnimatedSnackbar(context)
-    .setMessage(getString(R.string.dummy_message))
+    .setMessage(getString(R.string.dummy_message), ContextCompat.getColor(this@MainActivity, android.R.color.white))
     .setTextSize(15f)
     .setTypeFace(Typeface.DEFAULT_BOLD)
     .setIconDrawable(getDrawable(android.R.drawable.ic_dialog_email), ContextCompat.getColor(this@MainActivity, R.color.greenLight))
     .setBgDrawable(animationDrawable)
     .setAnimationDurationMillis(600)
     .setAutoHide(true, 4000)
+    .setAddStatusBarPadding(true) // default true
     .show()
 ```
 Second parameter in any setter is optional and you can always enter only first parameter if you like.
+
+#### Use your custom view in the snack bar.
+```Kotlin
+AnimatedSnackbar(this)
+                .setCustomView(R.layout.my_custom_view)
+                .show()
+```
 
 More description is planned to be added here, but for now please refer to the included example project for further clarification.
 

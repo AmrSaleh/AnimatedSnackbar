@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/parent_layout"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/error_red"
         tools:translationY="0dp"
         android:elevation="20dp"
 >
-    <ImageView
+    <LinearLayout
+        android:id="@+id/default_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables,UselessParent">
+
+        <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"
             app:srcCompat="@android:drawable/ic_dialog_info"
@@ -21,7 +27,7 @@
             android:layout_marginStart="14dp"
             android:contentDescription="@string/error_bubble_alt_txt"
             android:layout_marginBottom="14dp"/>
-    <TextView
+        <TextView
             android:text="@string/dummy_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,5 +37,7 @@
             android:layout_marginTop="10dp" android:layout_marginStart="10dp"
             android:textColor="@android:color/white"
             android:layout_marginBottom="14dp" android:layout_marginEnd="20dp"
-    />
-</LinearLayout>
+            />
+
+    </LinearLayout>
+</FrameLayout>

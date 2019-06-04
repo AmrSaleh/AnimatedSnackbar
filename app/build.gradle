@@ -31,6 +31,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
 
     implementation project(":animatedsnackbarlib") //local usage of bundled library
 //    implementation 'com.github.AmrSaleh:AnimatedSnackbar:v1.0'
