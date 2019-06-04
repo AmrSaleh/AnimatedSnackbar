@@ -80,7 +80,7 @@ Second parameter in any setter is optional and you can always enter only first p
 
 #### Use your custom view in the snack bar.
 ```Kotlin
-AnimatedSnackbar(this)
+AnimatedSnackbar(context)
                 .setCustomView(R.layout.my_custom_view)
                 .show()
 ```
