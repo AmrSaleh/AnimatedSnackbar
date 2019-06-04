@@ -5,13 +5,13 @@ Android library that provides an animated customizable snack bar.
 - View on demand a custom snack bar from the top of the screen.
 - Pass custom message to show in the snack bar.
 - The snack bar disappears automatically after a few seconds.
-- Dismiss the bar programatically on demand.
+- Dismiss the bar programmatically on demand.
 - Customize various features like background, font, icon and tint.
 
 ## Showcase
 These are GIFs and may take a few seconds to load if you have a slow connection.
-![ezgif com-gif-maker](https://user-images.githubusercontent.com/5616594/58800238-d72cd780-85f6-11e9-9796-ae13a4ed6bfd.gif)
-![58773812-d4ae8b80-85be-11e9-8de5-019ab5c2ffaa-min](https://user-images.githubusercontent.com/5616594/58800177-b795af00-85f6-11e9-8cc2-a240c76184c6.png)
+![Showcase GIF](https://user-images.githubusercontent.com/5616594/58800238-d72cd780-85f6-11e9-9796-ae13a4ed6bfd.gif)
+![Showcase image](https://user-images.githubusercontent.com/5616594/58800177-b795af00-85f6-11e9-8cc2-a240c76184c6.png)
 
 <!-- <img src="https://user-images.githubusercontent.com/5616594/58800177-b795af00-85f6-11e9-8cc2-a240c76184c6.png" alt="png1" width="430"/> -->
 <!-- <img src="https://user-images.githubusercontent.com/5616594/57711888-22d70b80-765f-11e9-86ce-2907ac0ddb58.gif" alt="GIF1" width="430"/> <img src="https://user-images.githubusercontent.com/5616594/57711890-22d70b80-765f-11e9-945e-80d2b9a77061.gif" alt="GIF2" width="430"/> -->
@@ -36,7 +36,7 @@ Add it in your root build.gradle at the end of repositories:
 ```Groovy
 allprojects {
   repositories {
-    ...
+    //...
     maven { url 'https://jitpack.io' }
   }
 }
