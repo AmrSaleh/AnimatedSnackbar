@@ -67,6 +67,15 @@ AnimatedSnackbar(context)
 ```
 The snack bar will auto hide after a few seconds but you can also manually hide the snack bar by calling the "hide" function.
 
+##### You can Set your message as a spannable string now!
+```kotlin
+//val spannableString = SpannableString("This is a spannable string")
+//    spannableString.setSpan(ForegroundColorSpan(Color.RED), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+AnimatedSnackbar(context)
+    .setMessage(spannableString)
+    .show()
+```
 #### Show a customized snack bar from your Activity of Fragment(pass activity context)
 ```Kotlin
 // val animationDrawable = getDrawable(R.drawable.drawable_gradient_animation_list) as AnimationDrawable
@@ -90,7 +99,7 @@ AnimatedSnackbar(context)
                 .setCustomView(R.layout.my_custom_view)
                 .show()
 ```
-#### You can also customize the message and icon even when using a custom  view.
+#### You can also customize the message and icon and background even when using a custom view.
 Just make sure to use 
 * id ```icon_image_view``` for your image view.
 * id ```message_text_view``` for your text view.
@@ -104,7 +113,7 @@ AnimatedSnackbar(context)
                 .show()
 ```
 
-#### You can hide the snack bar any time you want.
+#### You can hide the snack bar at any time you want.
 ```Kotlin
 // val snackbar = AnimatedSnackbar(context).setMessage(getString(R.string.dummy_message))
 // snackbar.show()

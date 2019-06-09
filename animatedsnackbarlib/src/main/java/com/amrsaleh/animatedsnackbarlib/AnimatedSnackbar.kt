@@ -7,6 +7,7 @@ import android.graphics.Typeface
 import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.Drawable
 import android.os.Handler
+import android.text.SpannableString
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,7 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet? = null) : FrameLa
 
     private var iconDrawable : Drawable? = null
     private var iconTint : Int? = null
-    private var message : String? = null
+    private var message : SpannableString? = null
     private var textTint : Int? = null
     private var typeface : Typeface? = null
     private var textSize : Float? = null
@@ -68,6 +69,10 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet? = null) : FrameLa
     }
 
     fun setMessage(message : String, textTint : Int? = null): AnimatedSnackbar{
+        return setMessage(SpannableString(message), textTint)
+    }
+
+    fun setMessage(message : SpannableString, textTint : Int? = null): AnimatedSnackbar{
         this.message = message
         message_text_view.text = message
 

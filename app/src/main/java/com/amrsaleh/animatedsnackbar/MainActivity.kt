@@ -1,8 +1,12 @@
 package com.amrsaleh.animatedsnackbar
 
+import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.amrsaleh.animatedsnackbarlib.AnimatedSnackbar
@@ -32,13 +36,16 @@ class MainActivity : AppCompatActivity() {
             mySnackBar.setMessage(getString(R.string.dummy_message)).show()
         }
 
+        val spannableString = SpannableString("This is a spannable string")
+        spannableString.setSpan(ForegroundColorSpan(Color.RED), 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
         show_custom_bar_button.setOnClickListener {
 //            val colorDrawable = ColorDrawable(ContextCompat.getColor(this, R.color.darkGray))
             AnimatedSnackbar(this).apply {
-                setIconDrawable(getDrawable(android.R.drawable.ic_dialog_email), ContextCompat.getColor(this@MainActivity, R.color.greenLight))
+                setIconDrawable(getDrawable(android.R.drawable.ic_dialog_email), ContextCompat.getColor(this@MainActivity, R.color.colorGreen_A400))
                 setBgDrawable(animationDrawable)
 //                setBgDrawable(colorDrawable)
-                setMessage(getString(R.string.dummy_message), ContextCompat.getColor(this@MainActivity, android.R.color.white))
+                setMessage(spannableString, ContextCompat.getColor(this@MainActivity, R.color.colorGreen_A400))
                 setTextSize(15f)
                 setAutoHide(true, 4000)
                 setAnimationDurationMillis(600)
