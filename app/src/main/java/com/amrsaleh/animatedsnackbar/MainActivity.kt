@@ -49,7 +49,9 @@ class MainActivity : AppCompatActivity() {
 
         show_custom_view_btn.setOnClickListener {
             AnimatedSnackbar(this)
+                .setMessage("Yay! I set this message before or after setting my custom view")
                 .setCustomView(R.layout.my_custom_view)
+                .setIconDrawable(getDrawable(android.R.drawable.ic_dialog_email), ContextCompat.getColor(this@MainActivity, R.color.error_red))
                 .setAddStatusBarPadding(true) // default true
                 .setAutoHide(true, 4000) // deafult true, 2000
                 .show()

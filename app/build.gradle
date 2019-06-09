@@ -34,5 +34,5 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
 
     implementation project(":animatedsnackbarlib") //local usage of bundled library
-//    implementation 'com.github.AmrSaleh:AnimatedSnackbar:v1.0'
+//    implementation 'com.github.AmrSaleh:AnimatedSnackbar:v2.1'
 }

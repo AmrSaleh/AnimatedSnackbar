@@ -2,7 +2,6 @@ package com.amrsaleh.animatedsnackbarlib
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Rect
 import android.graphics.Typeface
 import android.graphics.drawable.AnimationDrawable
@@ -13,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.snackbar_view.view.*
 
@@ -24,10 +25,10 @@ import kotlinx.android.synthetic.main.snackbar_view.view.*
  */
 class AnimatedSnackbar(context: Context, attrs : AttributeSet? = null) : FrameLayout(context, attrs) {
 
-    private var iconDrawable : Drawable? = context.getDrawable(android.R.drawable.ic_dialog_info)
-    private var iconTint = Color.TRANSPARENT
-    private var message = ""
-    private var textTint = Color.WHITE
+    private var iconDrawable : Drawable? = null
+    private var iconTint : Int? = null
+    private var message : String? = null
+    private var textTint : Int? = null
     private var typeface : Typeface? = null
     private var textSize : Float? = null
     private var bgDrawable : Drawable? = null
@@ -49,35 +50,56 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet? = null) : FrameLa
     private val mHideRunnable = Runnable { hide() }
     private var hidden = true
 
-    fun setIconDrawable(iconDrawable : Drawable?, iconTint : Int = Color.TRANSPARENT): AnimatedSnackbar{
+    fun setIconDrawable(iconDrawable : Drawable?, iconTint : Int? = null): AnimatedSnackbar{
+        val customImageView = customBarView?.findViewById<ImageView>(R.id.icon_image_view)
+
         if(iconDrawable != null) {
             this.iconDrawable = iconDrawable
-            imageView.setImageDrawable(iconDrawable)
+            icon_image_view.setImageDrawable(iconDrawable)
+            customImageView?.setImageDrawable(iconDrawable)
         }
-        this.iconTint = iconTint
-        imageView.setColorFilter(iconTint)
+
+        if(iconTint != null) {
+            this.iconTint = iconTint
+            icon_image_view.setColorFilter(iconTint)
+            customImageView?.setColorFilter(iconTint)
+        }
         return this
     }
 
-    fun setMessage(message : String, textTint : Int = Color.WHITE): AnimatedSnackbar{
+    fun setMessage(message : String, textTint : Int? = null): AnimatedSnackbar{
         this.message = message
-        textView.text = message
+        message_text_view.text = message
 
-        this.textTint = textTint
-        textView.textSize
-        textView.setTextColor(textTint)
+        val customTextView = customBarView?.findViewById<TextView>(R.id.message_text_view)
+        customTextView?.text = message
+
+        if(textTint != null){
+            this.textTint = textTint
+            message_text_view.setTextColor(textTint)
+            customTextView?.setTextColor(textTint)
+        }
+
         return this
     }
 
     fun setTypeFace(typeface: Typeface): AnimatedSnackbar{
         this.typeface = typeface
-        textView.typeface = typeface
+        message_text_view.typeface = typeface
+
+        val customTextView = customBarView?.findViewById<TextView>(R.id.message_text_view)
+        customTextView?.typeface = typeface
+
         return this
     }
 
     fun setTextSize(textSize: Float): AnimatedSnackbar{
         this.textSize = textSize
-        textView.textSize = textSize
+        message_text_view.textSize = textSize
+
+        val customTextView = customBarView?.findViewById<TextView>(R.id.message_text_view)
+        customTextView?.textSize = textSize
+
         return this
     }
 
@@ -85,6 +107,7 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet? = null) : FrameLa
         if(bgDrawable != null) {
             this.bgDrawable = bgDrawable
             parent_layout.background = bgDrawable
+            customBarView?.background = bgDrawable
         }
         return this
     }
@@ -105,6 +128,22 @@ class AnimatedSnackbar(context: Context, attrs : AttributeSet? = null) : FrameLa
         customBarView = inflate(context, customViewResource, null)
         parent_layout.addView(customBarView)
         default_view.visibility = View.GONE
+
+        val customTextView = customBarView?.findViewById<TextView>(R.id.message_text_view)
+        val customImageView = customBarView?.findViewById<ImageView>(R.id.icon_image_view)
+
+        if(customTextView != null){
+            message?.let{customTextView.text = it}
+            textTint?.let{customTextView.setTextColor(it)}
+            typeface?.let{customTextView.typeface = it}
+            textSize?.let{customTextView.textSize = it}
+        }
+
+        if(customImageView != null){
+            iconDrawable?.let{customImageView.setImageDrawable(it)}
+            iconTint?.let{customImageView.setColorFilter(it)}
+        }
+
         return this
     }
 

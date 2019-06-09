@@ -90,6 +90,27 @@ AnimatedSnackbar(context)
                 .setCustomView(R.layout.my_custom_view)
                 .show()
 ```
+#### You can also customize the message and icon even when using a custom  view.
+Just make sure to use 
+* id ```icon_image_view``` for your image view.
+* id ```message_text_view``` for your text view.
+```Kotlin
+// Customizations can be set before or after setting your custom view (How cool is that!)
+AnimatedSnackbar(context)
+                .setMessage("Yay! I set this message before or after setting my custom view")
+                .setCustomView(R.layout.my_custom_view)
+                .setBgDrawable(ColorDrawable(ContextCompat.getColor(this, R.color.darkGray)))
+                .setIconDrawable(getDrawable(android.R.drawable.ic_dialog_email))
+                .show()
+```
+
+#### You can hide the snack bar any time you want.
+```Kotlin
+// val snackbar = AnimatedSnackbar(context).setMessage(getString(R.string.dummy_message))
+// snackbar.show()
+
+snackbar.hide()
+```
 
 More description is planned to be added here, but for now please refer to the included example project for further clarification.
 
